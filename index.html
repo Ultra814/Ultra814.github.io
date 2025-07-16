@@ -23,8 +23,8 @@ fullScreenBtn.ondblclick = () => {
 	}).catch(() => {
 		console.log('进入全屏失败');
 	});
-	canvas.height = window.innerHeight * 1.25;
-	canvas.width = window.innerWidth;
+	canvas.height = screen.availHeight;
+	canvas.width = screen.availWidth;
 }
 
 
