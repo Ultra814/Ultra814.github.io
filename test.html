@@ -1,0 +1,51 @@
+<canvas width="600px" height="400px"></canvas>
+<script>
+  function cg(gradientFill,b=[]){
+
+	let hue = b[0]??180;
+	let sat = b[1]??100;
+	let light = b[2]??50;
+	let spread = b[3]??8;
+	let period = b[4]??2;
+	//cos period is 2pi
+	let stop = (Date.now()/3000)%period - period;
+	let curoffset = 0;
+
+	//always draw one at 0
+	let zeropoint = (0 - stop)/(period/4); //theoretical loop point when stop = 0
+	gradientFill.addColorStop(0, `hsl(${linearOscillate(zeropoint * Math.PI / 2)*spread + hue}, ${sat}%, ${light}%)`);
+
+	//always draw one at 1
+	let onepoint = (1 - stop)/(period/4); //theoretical loop point when stop = 0
+	gradientFill.addColorStop(1, `hsl(${linearOscillate(onepoint * Math.PI / 2)*spread + hue}, ${sat}%, ${light}%)`);
+
+	for(; stop < 1; stop+= period/4){
+		//if < 0 don't draw
+		if(stop > 0){
+			gradientFill.addColorStop(stop, `hsl(${linearOscillate(curoffset)*spread + hue}, ${sat}%, ${light}%)`);
+		}
+		curoffset += (Math.PI/2);
+	}
+}
+//period 2pi, (0->pi go up), (pi->2pi go down)
+function linearOscillate(x){
+	x = x% (Math.PI * 2);
+	if(x < Math.PI) return ((2 * x / Math.PI) - 1);
+	else return (3 - (2 * x / Math.PI));
+}
+var c=document.getElementById("0")
+var ctx=c.getContext("2d")
+var grd=ctx.createLinearGradient(0,0,100,100)
+ctx.strokeStyle="#0cc"
+ctx.lineCap="round"
+ctx.lineWidth=5
+    </script>
+!function a(){
+grd=ctx.createLinearGradient(10,10,100,100)  
+cg(grd)
+ctx.fillStyle=grd
+ctx.fillRect(10,10,100,100)
+  ctx.moveTo(10,10);ctx.lineTo(110,10);ctx.lineTo(110,110);
+  ctx.lineTo(10,110);ctx.lineTo(10,10);ctx.stroke();
+  window.requestAnimationFrame(a)
+}()
