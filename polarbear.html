@@ -16,7 +16,7 @@
 const c=document.getElementById("myCanvas");
 const ctx=c.getContext("2d");
 const video=document.getElementById("v");
-video.addEventListener('load', function() {
+video.addEventListener('onload', function() {
     video.play();
     function drawFrame() {
         if (video.paused || video.ended) {
