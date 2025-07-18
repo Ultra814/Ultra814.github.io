@@ -2,24 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>菜鸟教程(runoob.com)</title>
+<title>秦始皇坐骑</title>
 </head>
 <body>
 
-<p>要使用的图片:</p>
-<video id="scream" src="23677-polar-bear-walking.mp4" autoplay loop></video>
+<p>要使用的视频:</p>
+<video id="v" src="23677-polar-bear-walking.mp4" autoplay loop></video>
 <p>画布:</p>
 <canvas id="myCanvas" width="250" height="300" style="border:1px solid #d3d3d3;">
 您的浏览器不支持 HTML5 canvas 标签。
 </canvas>
 <script>
-var c=document.getElementById("myCanvas");
-var ctx=c.getContext("2d");
-var img=document.getElementById("scream");
-img.onload = function()
-{
-    
-}
+const c=document.getElementById("myCanvas");
+const ctx=c.getContext("2d");
+const video=document.getElementById("v");
+video.addEventListener('play', function() {
+    function drawFrame() {
+        if (video.paused || video.ended) {
+            return;
+        }
+        ctx.drawImage(video, 0, 0);
+        requestAnimationFrame(drawFrame);
+    }
+    drawFrame();
+});
 </script>
 
 </body>
